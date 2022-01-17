@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+    has_many :microposts, dependent: :destroy
     attr_accessor :remember_token, :activation_token, :reset_token 
 #ApplicationRecord class inherites ActiveRecord::Base
 #Which means that User class will have all the functionality of ActiveRecord::Base 
@@ -74,6 +75,12 @@ class User < ApplicationRecord
     #Returns true if a password reset has expired.
     def password_reset_expired?
       reset_sent_at < 2.hours.ago
+    end
+
+    #Defines a proto-feed 
+    #See "Following users" for the full implementation
+    def feed
+      Micropost.where("user_id =?", id)
     end
 
   private

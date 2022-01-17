@@ -5,6 +5,11 @@ ruby '2.7.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.4', '>= 6.1.4.4'
+
+gem 'rails-controller-testing'
+gem 'active_storage_validations', '0.8.9'
+gem 'image_processing',           '1.9.3'
+gem 'mini_magick',                '4.9.5'
 #faker gem
 gem 'faker', '2.11.0'
 gem 'will_paginate', '3.3.0'
