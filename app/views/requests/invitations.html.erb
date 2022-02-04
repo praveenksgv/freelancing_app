@@ -1,0 +1,23 @@
+<% provide(:title, "Invitations") %>
+
+<div class="row">
+    <aside class="col-md-4">
+        <section class="user_info">
+            <br>
+            <br>
+            <%= form_with(scope: "invitation", method: :get) do |f| %>
+                <%= f.select :id, @jobs.map{ |job| [job.title, job.id] }, { :include_blank => "Select Job" }, html_options = { :class => 'form-control' } %>
+                <%= f.submit "Select Job", class:"form-control btn btn-primary" %>
+            <% end %>
+        </section>
+    </aside>
+    <% if current_user.role == 1%>
+        <div class="col-md-8">
+            <%= render 'freelancer_invitation' %>
+        </div>
+    <% else %>
+        <div class="col-md-8">
+            <%= render 'client_invitation' %>
+        </div>
+    <% end %>
+</div>

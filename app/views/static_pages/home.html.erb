@@ -1,36 +1,90 @@
 <% if logged_in? %>
-  <div class="row">
-    <aisde class="col-md-4">
+  <% if current_user.role == 1%>  
+    <div class="row">
+      <aisde class="col-md-4">
       <section class="user_info">
         <%= render 'shared/user_info' %>
       </section>
-      <section class="stats">
-        <%= render 'shared/stats' %>
+      <div class="dummy2" >
+          <% if current_user.description.nil? %>
+            <p class="table-bordered bg-info"><b> A Freelancer</b> </p>  
+          <% else %>
+            <p class="table-bordered bg-info"><b> <%= current_user.description %> </b> </p>  
+          <% end %>
+      </div>
+      <br>
+      <div class="dummy2">
+        <%= form_tag(root_path, method: :get) do %>
+          <h3> <b> Specialization </b> </h3> 
+          <%= text_field_tag :specialization, params[:specialization], class:"form-control dummy1" %>
+          <%= submit_tag 'Search', name: nil, class:"btn btn-primary" %>
+        <% end %>
+      </div>
+
+      </aisde>
+      <div class="col-md-8">
+        <h3 class="text-center"><b> Apply and Get Hired </b> </h3>
+        <%= render 'shared/feed' %>
+      </div>
+      </div>  
+
+  <% else %>
+
+    <div class="row">
+      <aisde class="col-md-4">
+      <section class="user_info">
+        <%= render 'shared/user_info' %>
       </section>
+
+      <div class="dummy2" >
+          <% if current_user.description.nil? %>
+            <p class="table-bordered bg-info"><b> A Client</b> </p>  
+          <% else %>
+            <p class="table-bordered bg-info"><b> <%= current_user.description %> </b> </p>  
+          <% end %>
+      </div>
+
+      <br>
       <section class="micropost_form">
-        <%= render 'shared/micropost_form' %>
+        <%= link_to "Create New Job", new_job_path, class: "btn btn-primary" %>
       </section>
-    </aisde>
-    <div class="col-md-8">
-      <h3>Micropost Feed</h3>
-      <%= render 'shared/feed' %>
+      </aisde>
+      <div class="col-md-8">
+        <% if @jobs.any?%>
+          <h3 class="text-center"><b> Hire for below <%= pluralize(@jobs.count,"job") %> </b> </h3>
+          <%= render 'shared/feed' %>
+        <% else %>
+          <h2 class="text-center"> <b> No available jobs for hiring! </b> </h2>
+          <h3 class="text-center"> <b>Click on create new job button in left!!</b> </h3>
+        <% end %>
+      </div>
     </div>
-  </div>
+
+  <% end %>
 <% else %>
-<div class="center jumbotron">
-  <h1>Welcome to the Sample App</h1>
+<div class="center home-page" >
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <h1>Welcome to the Freelancing App</h1>
+  <br>
 
-  <h2>
-    This is the home page for the
-    <a href="https://www.railstutorial.org/">Ruby on Rails Tutorial</a>
-    sample application.
-  </h2>
-
-  <%= link_to "Sign up now!", signup_path , class: "btn btn-lg btn-primary" %>
+  <%= link_to "Sign up now!", signup_path , class: "btn btn-lg btn-default" %>
+  <%= link_to "Login Now!", login_path , class: "btn btn-lg btn-default" %>
+  <br>
+  <br>
+  <%# <h3> <b>
+    This is the home page for the Freelancing Application.
+  </b></h3> %>
 </div>
-
-<%= link_to image_tag("rails.svg", alt: "Rails logo", width: "200"),
-                      "https://rubyonrails.org/" %>
-
+<%# 
+<%= link_to image_tag("free.png", alt: "Rails logo", width: "200"),
+                      "https://www.freelancer.in/login" %> 
 <% end %>
 

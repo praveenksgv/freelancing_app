@@ -1,0 +1,49 @@
+<div class="row">
+        <aisde class="col-md-4">
+            <%= form_tag(choices_path, method: :get) do %>
+                <h3> <b> User </b> </h3> <%= text_field_tag :user, params[:user], class:"form-control" %>
+                <%= submit_tag 'Search', name: nil, class:"btn btn-primary" %>
+            <% end %>
+      </aisde>
+
+
+      <div class="col-md-8">
+        
+        <h3>All Freelancers </h3>
+        <% if @users.any? %>
+            <ol class="microposts">
+            <% @users.each do |user|%>
+                
+                <li class="jumbotron box">
+                    
+                    <small class="pull-right"> 
+                        <%= form_with(model: @request, local: true) do |f| %>
+                            <%= f.hidden_field :job_id, value: @request.job.id %>
+                            <%= f.hidden_field :status, value: "Pending" %>
+                            <%= f.hidden_field :user_id, value: user.id %>
+                            <%= f.hidden_field :method, value: @request.method %>
+                            <%= f.submit "Send Invitation", class: "btn btn-sm btn-primary pull-right"%>
+                        <% end %> 
+                    </small>
+                    <%= gravatar_for user, size: 50 %>
+                    <%= user.name %>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                
+                    <ul class="list-inline praveen-0 ">
+                        <% user.specializations.each do |specialization| %>
+                            <li class="list-inline-item bg-primary praveen-1"> <b> <%= specialization.name %> </b> </li>
+                            
+                        <% end %>
+                    </ul>
+                    <h3 class="text-center"><small><%= user.description%> </small></h3>
+                </li>
+            <% end %>
+            </ol>
+            <%= will_paginate @users %>
+        <% end %>
+    </div>
+</div>  
+

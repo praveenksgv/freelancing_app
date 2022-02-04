@@ -1,0 +1,53 @@
+<li class="jumbotron box" id="micropost-<%= job.id %>>
+    
+    <span class="content">
+            <div class="row">
+                <h4> <b class="pull-right btn-bottom btn-left"> $<%= job.budget %>  </b> </h4>
+                <h4> <b><%= job.title.capitalize %> </b> </h4> 
+            </div>
+            
+            <small class="dummy5"> <b>Description:</b> <%= job.description[0..500].capitalize ... %> </small>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <ul class="list-inline temp2">
+                <li class="inline-list-item"> <%= link_to "View Job", job_path(job), class:"btn-left btn btn-primary" %> </li>
+                <% if current_user.role == 1%>
+                    <li class="inline-list-item">
+                        <%= form_with(model: @request, local: true) do |f| %>
+                            <%= f.hidden_field :job_id, value: job.id %>
+                            <%= f.hidden_field :status, value: "Pending" %>
+                            <%= f.hidden_field :user_id, value: current_user.id %>
+                            <%= f.hidden_field :method, value: "Application" %>
+                            <%= f.submit "Apply", class: "btn btn-primary"%>
+                        <% end %> 
+                    </li>
+                <% else %>
+                     <li class="inline-list-item">
+                        <%= form_with(model: @request, local: true) do |f| %>
+                            <%= f.hidden_field :job_id, value: job.id %>
+                            <%= f.hidden_field :status, value: "Denied" %>
+                            <%= f.hidden_field :user_id, value: current_user.id %>
+                            <%= f.hidden_field :method, value: "Invitation" %>
+                        <%= f.submit "Invite", class: "btn btn-primary"%>
+                        <% end %> 
+                    </li>
+                    <% if job.requests.where("method = ?", "Application").count == 0 && job.requests.where("status = ?", "Denied").count == 0 && job.state != 0  %>
+                        <li class="inline-list-item"> <%= link_to "Delete", job, method: :delete, data: {confirm: "You sure?" }, class:"btn btn-danger" %> </li>
+                    <% end %>
+                <% end %>
+            </ul>
+            <% if current_user.role == 1%>
+                <small class="pull-right temp btn-right btn-bottom dummy6">Posted by <%= link_to "#{job.user.name }", user_path(job.user)%> <%= time_ago_in_words(job.created_at) %> ago.</small> 
+            <% else %>
+                <small class="pull-right temp btn-right btn-bottom dummy6">Posted <%= time_ago_in_words(job.created_at) %> ago.</small> 
+            <% end %>
+     </span>         
+</li>
+
+
+
+
+       

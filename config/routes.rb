@@ -1,31 +1,47 @@
 Rails.application.routes.draw do
 
 
-  get 'password_resets/new'
-  get 'password_resets/edit'
-  get 'password_reset/new'
-  get 'password_reset/edit'
+
+  
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  root 'static_pages#home'
-  get '/about', to: 'static_pages#about'
-  get '/contact', to: 'static_pages#contact'
-  get '/help', to: 'static_pages#help'
-  get '/signup', to: 'users#new'
+  #These are routes used by sample_app
+
+  # root 'static_pages#home'
+  # get '/about', to: 'static_pages#about'
+  # get '/contact', to: 'static_pages#contact'
+  # get '/help', to: 'static_pages#help'
+  # get '/signup', to: 'users#new'
+
+  
+  # resources :users do
+  #   member do 
+  #     get :following, :followers
+  #   end
+  # end
+  # resources :microposts,      only: [:create, :destroy]
+  # resources :relationships, only: [:create, :destroy]
+
+  get 'jobs/new'
+  get 'jobs/show'
 
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
-  resources :users do
-    member do 
-      get :following, :followers
-    end
-  end
 
   resources :users
-  resources :account_activation, only: [:edit]
   resources :password_resets, only: [:new, :create, :edit, :update]
-  resources :microposts,      only: [:create, :destroy]
-  resources :relationships, only: [:create, :destroy]
   
+
+  root 'static_pages#home'
+  get '/howitworks', to: 'static_pages#howitworks'
+  get '/about', to: 'static_pages#about'
+  get '/contact', to: 'static_pages#contact'
+  get 'signup', to: 'users#new'
+  resources :users
+  resources :specializations, only: [:create, :destroy]
+  resources :jobs, only: [:new, :create, :show, :edit, :update, :destroy]
+  resources :requests, only: [:create, :destroy, :update]
+  get '/applications', to: 'requests#applications'
+  get '/invitations', to: 'requests#invitations'
 
 end

@@ -1,12 +1,35 @@
+<%# <% if @user.errors.any? %> 
+    <%# <div id="error_explaination"> %>
+        <%# <div class="alert alert-danger"> %>
+            <%# The form contains <%= pluralize( @user.errors.count, "error" )%>
+        <%# </div> %>
+        <%# <ul> %>
+        <%# <% @user.errors.full_messages.each do |msg| %>
+            <%# <li> <%= msg </li> %> 
+        <%# <% end %> 
+        <%# </ul> 
+    <%# </div> 
+<%# <% end %>
+
+
+
+
+
+
+
 <% if object.errors.any? %>
-    <div id="error_explaination">
-        <div class="alert alert-danger">
-            The form contains <%= pluralize( object.errors.count, "error" )%>
-        </div>
-        <ul>
-        <% object.errors.full_messages.each do |msg| %>
-            <li> <%= msg %> </li>
-        <% end %>
-        </ul>
+  <div id="error_explanation">
+    <% error = [] %>
+    <% object.errors.each do |attr, msg| %>
+      <% error.append("#{attr} #{msg}") if object.errors[attr].first == msg %>
+    <% end %>
+    <div class="alert alert-danger">
+      The form contains <%= pluralize(error.length, "error") %>.
     </div>
+    <ul>
+    <% error.each do |msg| %>
+      <li> <%= msg %> </li>
+    <% end %>
+    </ul>
+  </div>
 <% end %>

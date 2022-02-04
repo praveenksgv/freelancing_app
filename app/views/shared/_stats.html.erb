@@ -1,15 +1,34 @@
+<%# <% @user ||= current_user %>
+<%# <div class="stats"> %>
+  <%# <a href="<%= following_user_path(@user) %>
+    <%# <strong id="following" class="stat"> %>
+      <%# <%= @user.following.count %>
+    <%# </strong> %>
+    <%# following %>
+  <%# </a> %>
+  <%# <a href="<%= followers_user_path(@user) %>
+    <%# <strong id="followers" class="stat"> %>
+      <%# <%= @user.followers.count %> 
+    <%# </strong> %>
+    <%# followers %>
+  <%# </a> %>
+<%# </div> %>
+
 <% @user ||= current_user %>
-<div class="stats">
-  <a href="<%= following_user_path(@user) %>">
-    <strong id="following" class="stat">
-      <%= @user.following.count %>
-    </strong>
-    following
-  </a>
-  <a href="<%= followers_user_path(@user) %>">
-    <strong id="followers" class="stat">
-      <%= @user.followers.count %>
-    </strong>
-    followers
-  </a>
-</div>
+<% if @user.role == 1 %>
+  <div class="stats">
+    <a> <strong id="following" class="stat" > <%=  @user.requests.where("method = ?", "Application").count   %> </strong> Applications </a>
+    <a> <strong id="followers" class="stat"> <%= @user.requests.where("method = ? AND status = ?", "Application", "Accepted").count %> </strong> Hirings </a>
+  </div>
+  <hr class="dummy2">
+  <div class="stats">
+    <a> <strong id="following" class="stat" > <%=  @user.requests.where("method = ?", "Invitation").count   %> </strong> Invitations &nbsp;&nbsp;</a>
+    
+    <a> <strong id="followers" class="stat"> <%= @user.requests.where("method = ? AND status = ?", "Invitation","Accepted").count %> </strong> Accepted  </a>
+  </div>
+<% else %>
+  <div class="stats">
+    <a> <strong id="following" class="stat" > <%=  @user.jobs.count   %> </strong> Jobs </a>
+    <a> <strong id="followers" class="stat"> <%= Request.select { |request| request.job.user == @user && request.status == "Accepted" }.count %> </strong> Hirings  </a>
+  </div>
+<% end %>

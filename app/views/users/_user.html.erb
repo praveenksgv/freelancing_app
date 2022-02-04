@@ -1,7 +1,28 @@
-<li>
-    <%= gravatar_for user, size: 50 %>
-    <%= link_to user.name, user %>
-    <% if current_user.admin? && !current_user?(user) %>
-        | <%= link_to "delete", user, method: :delete, data: {confirm: "You sure?"} %>
-    <% end%>
+<li class="jumbotron box">
+    <% if user.role == 1 %>
+        <%= gravatar_for user, size: 50 %>
+        <%= user.name %>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <ul class="list-inline">
+            <% user.specializations.each do |specialization| %>
+                <li class="list-inline-item bg-primary"> <%= specialization.name %> </li>
+            <% end %>
+        </ul>
+        <%= form_with(model: @request, local: true) do |f| %>
+            <%= f.hidden_field :job_id, value: @request.job.id %>
+            <%= f.hidden_field :status, value: "Pending" %>
+            <%= f.hidden_field :user_id, value: user.id %>
+            <%= f.hidden_field :method, value: @request.method %>
+            <%= f.submit "Send", class: "btn btn-primary pull-right"%>
+        <% end %> 
+
+        <%# <% if current_user.admin? && !current_user?(user) %> 
+            <%# | <%= link_to "delete", user, method: :delete, data: {confirm: "You sure?"} %> 
+        <%# <% end%>
+    <% end %>
 </li>

@@ -10,6 +10,7 @@ $gray-light: #777;
 body{
     padding-top: 60px;
 
+
 }
 section{
     overflow: auto;
@@ -51,7 +52,8 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 1.1em;
     line-height: 1.7em;
   }
-
+  
+  
   /* header */
 
 #logo {
@@ -77,6 +79,7 @@ h1, h2, h3, h4, h5, h6 {
 
 footer {
     margin-top: 45px;
+    margin-bottom: 10px;
     padding-top: 5px;
     border-top: 1px solid #eaeaea;
     color: #777;x
@@ -175,6 +178,7 @@ aside {
 .stats{
   overflow: auto;
   margin-top: 0;
+  font-weight: bold;
   padding: 0;
   a{
     float: left;
@@ -187,7 +191,7 @@ aside {
     }
     &:hover{
       text-decoration: none;
-      color: blue;
+      // color: blue;
     }
   }
   strong{
@@ -307,4 +311,93 @@ span.image {
   input {
     border: 0;
   }
+}
+
+.box{
+  overflow:hidden;
+  position: relative;
+  min-height: 25%;
+}
+.temp {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.temp2{
+  position: absolute;
+  bottom: 1;
+  left: 1;
+}
+
+.text-area-size{
+  min-height: 150px;
+}
+.text-area-size1{
+  min-height: 110px;
+}
+.praveen-0{
+  margin: 0;
+  padding: 0;
+}
+.praveen-1{
+  margin: 0;
+  padding: 0;
+}
+
+.home-page{
+  height: 79vh;
+  width: 100%;
+  background-image: url("bg-image1.jpg");
+  background-size:cover;
+  color: white;
+  h2{
+    color: white;
+
+  }
+}
+//needed important for the checkboxes
+.test{
+  margin-right: 10px;
+  margin-bottom: 10px;
+  display: flex;
+}
+.btn-left{
+  margin-left: 40px;
+}
+.btn-right{
+  margin-right: 8px;
+}
+.btn-bottom{
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+}
+.btn-top{
+  margin-top: 8px;
+}
+
+.transform-checkbox{
+  transform: scale(1.4);
+}
+
+.dummy1{
+  margin-bottom: 7px;
+}
+.dummy2{
+  margin-right: 30px;
+}
+.dummy3{
+  background-color: skyblue;
+  color: black;
+  font-weight: bold;
+}
+.dummy4:hover{
+  background-color: black;
+  color: white;
+}
+.dummy5{
+  font-size: 1.5rem;
+
+}
+.dummy6{
+  padding: 10px;
 }

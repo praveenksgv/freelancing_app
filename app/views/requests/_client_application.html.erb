@@ -1,0 +1,60 @@
+<% if @requests.any? %>
+    <h3 class="text-center"><b> Applications (<%= @requests.count %>) for you </b></h3> 
+        <ol class="microposts list-group">
+            <% @requests.each do |request| %>
+                    <li class="jumbotron box" id="micropost-<%= request.id %> >
+                        <span class="content">
+                                <div class="row">
+                                    <h4> <b class="pull-right btn-bottom btn-left"> $<%= request.job.budget %>  </b> </h4>
+                                    <h4> <b><%= request.job.title.capitalize %> </b> </h4> 
+                                </div>
+                                
+                                <small class="dummy5"> <b> Description: </b> <%= request.job.description[0..300].capitalize ... %> </small>
+
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <ul class="list-inline temp2">
+                                    <li class="inline-list-item"> <%= link_to "View Job", job_path(request.job), class:"btn-left btn btn-primary" %> </li>
+                                    <% if request.status == "Pending" && request.job.state != 0%>
+                                        <li class="inline-list-item">
+                                            <%= form_with(model: request, local: true) do |f| %>
+                                                <%= f.hidden_field :job_id, value: request.job.id %>
+                                                <%= f.hidden_field :status, value: "Accepted" %>
+                                                <%= f.hidden_field :user_id, value: request.user.id %>
+                                                <%= f.hidden_field :method, value: request.method %>
+                                                <%= f.submit "Accept", class: "btn btn-primary" %>
+                                            <% end %> 
+                                        </li>
+                                        <li class="inline-list-item">
+                                            <%= form_with(model: request, local: true) do |f| %>
+                                                <%= f.hidden_field :job_id, value: request.job.id %>
+                                                <%= f.hidden_field :status, value: "Denied" %>
+                                                <%= f.hidden_field :user_id, value: request.user.id %>
+                                                <%= f.hidden_field :method, value: request.method %>
+                                                <%= f.submit "Deny", class: "btn btn-danger"%>
+                                            <% end %> 
+                                        </li>
+                                    <% else %>
+                                        <% if request.status == "Pending" && request.job.state == 0%>
+                                            <li class="inline-list-item btn-bottom"><small >Status :<b> Hiring is done for the job</b> </small>  </li>
+                                        <% else %>
+                                            <li class="inline-list-item btn-bottom"><small >Status :<b> <%= request.status %> </b> </small>  </li>
+                                        <% end %>
+                                    <% end %>
+                                </ul>
+                                <% if request.status == "Pending" %>
+                                    <small class="pull-right temp dummy6 btn-right btn-bottom"> <%= link_to "#{request.user.name}", user_path(request.user) %> Applied <%= time_ago_in_words(request.created_at) %> ago.</small> 
+                                <% else %>
+                                    <small class="pull-right temp dummy6  btn-right btn-bottom"><%= request.status %> for <%= link_to "#{request.user.name}", user_path(request.user) %> <%= time_ago_in_words(request.updated_at) %> ago.</small>
+                                <% end %>
+                        </span>         
+                    </li>
+            <% end %>
+        </ol>
+        <%= will_paginate @requests %>
+<% else %>
+    <h3 class="text-center"> <b>No Applications to you! </b> </h3>
+<% end %>

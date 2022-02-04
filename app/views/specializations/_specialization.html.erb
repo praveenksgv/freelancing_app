@@ -1,0 +1,11 @@
+
+  <li class="list-group-item dummy3" id="micropost-<%= specialization.id %> >
+    <span class="text-right badge">
+        <% if current_user?(specialization.user) %>
+           <%= link_to "delete", specialization, method: :delete, data: {confirm: "You sure?" }, class: "btn dummy4 btn-default btn-left btn-right btn-sm" %>
+        <% end %>   
+    </span>
+    <b class="btn-left btn-right"> <%= specialization.name %> </b>
+  </li>
+
+  

@@ -10,12 +10,13 @@ class PasswordResetsController < ApplicationController
     @user = User.find_by(email: params[:password_reset][:email].downcase)
     if @user
       @user.create_reset_digest 
-      @user.send_password_reset_email 
-      flash[:info] = "Email sent with the password reset instruction"
-      redirect_to root_url
+      redirect_to edit_password_reset_url(@user.reset_token, email: @user.email)
+    #   @user.send_password_reset_email 
+    #   flash[:info] = "Email sent with the password reset instruction"
+    #   redirect_to root_url
     else
-      flash.now[:danger] = "Email address not found"
-      render 'new'
+        flash.now[:danger] = "Email address not found"
+        render 'new'
     end
   end
 

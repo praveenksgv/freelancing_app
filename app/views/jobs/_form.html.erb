@@ -1,0 +1,27 @@
+    <%= form_with(model: @job, local: true) do |f| %>
+          <%= render 'shared/error_messages', object: f.object %>
+      
+          <%= f.label :title %>
+          <%= f.text_field :title, class:'form-control' %>
+
+          <%= f.label :description %>
+          <%= f.text_area :description, class:'form-control text-area-size' %>
+          
+          <%= f.label :skills, "Required Skills( ' , ' separated)" %>
+          <%= f.text_field :skills, class: 'form-control' %>
+
+          <%= f.label :budget, "Budget($)" %>
+          <%= f.number_field :budget, step: 0.01, class: 'form-control' %>
+    
+          <div class="row btn-top">
+            <div class="col-md-1 transform-checkbox"><%= f.radio_button :state, 2 %></div>
+            <div class=""><%= f.label :state, "Open for all" %></div>
+          </div>
+          <div class="row btn-top">
+            <div class="col-md-1 transform-checkbox"><%= f.radio_button :state, 1 %></div>
+            <div class=""><%= f.label :state, "For Invitation Only" %></div>
+          </div>
+          <br>
+          <%= f.submit  class: "btn btn-primary" %>
+    <% end %>
+

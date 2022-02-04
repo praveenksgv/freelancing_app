@@ -1,0 +1,45 @@
+            <% if @requests.any? %>
+                <h3 class="text-center"> <b> Applications (<%= @requests.count %>) </b> </h3> 
+                <ol class="microposts list-group">
+                    <% @requests.each do |request| %>
+                        <li class="jumbotron box" id="micropost-<%= request.id %> >
+                            <span class="content">
+                               <div class="row">
+                                    <h4> <b class="pull-right btn-bottom btn-left"> $<%= request.job.budget %>  </b> </h4>
+                                    <h4> <b><%= request.job.title.capitalize %> </b> </h4> 
+                                </div>
+                                
+                                <small class="dummy5"> <b>Description:</b> <%= request.job.description[0..300].capitalize ... %> </small>
+
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <ul class="list-inline temp2">
+                                    <li class="inline-list-item"> <%= link_to "View Job", job_path(request.job), class:"btn-left btn btn-primary" %> </li>
+                                    <%if request.status == "Pending" && request.job.state == 2 %>
+                                        <li class="inline-list-item"> <%= link_to "Delete", request_path(request), method: :delete, data: {confirm: "You sure?" }, class: "btn btn-danger" %></li>
+                                    <% end %>
+                                    <% if request.status == "Pending" && request.job.state == 0 %>
+                                        <li class="inline-list-item"><small >Status :<b> Hiring is done for this job</b> </small>  </li>
+                                    <% else %>
+                                        <li class="inline-list-item"><small >Status :<b> <%= request.status %> </b> </small>  </li>
+                                    <% end %>
+                                </ul>
+
+                                <% if request.status == "Pending" %>
+                                    <small class="pull-right temp dummy6 btn-right btn-bottom">Applied to <%= link_to "#{request.job.user.name}", user_path(request.job.user) %> <%= time_ago_in_words(request.updated_at) %> ago.</small>
+                                <% else %>
+                                    <small class="pull-right temp dummy6 btn-right btn-bottom"><%= request.status %> by <%= link_to "#{request.job.user.name}", user_path(request.job.user) %> <%= time_ago_in_words(request.updated_at) %> ago.</small>
+                                <% end %>
+                            </span>         
+                         </li>
+                    <% end %>
+                </ol>
+                <%= will_paginate @requests %>
+            <% else %>
+                <h2 class="text-center"><b> No application made by you! </b> </h2>
+                <h3 class="text-center"><b> Click the below button to apply now </b> </h3>
+                <h3 class="text-center"> <%= link_to "Apply now", root_path, class:"btn btn-primary" %> </h3>
+            <% end %>

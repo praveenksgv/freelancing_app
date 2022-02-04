@@ -1,0 +1,10 @@
+                                    <li class="inline-list-item">
+                                        <%= form_with(model: request, local: true) do |f| %>
+                                        <%# <%= render 'shared/error_messages', object: f.object %> 
+                                            <%= f.hidden_field :job_id, value: request.job.id %>
+                                            <%= f.hidden_field :status, value: "Denied" %>
+                                            <%= f.hidden_field :user_id, value: request.user.id %>
+                                            <%= f.hidden_field :method, value: request.method %>
+                                            <%= f.submit "Deny", class: "btn btn-danger"%>
+                                        <% end %> 
+                                    </li>

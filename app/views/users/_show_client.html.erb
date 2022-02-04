@@ -1,0 +1,43 @@
+            <% if @requests.any? %>
+                <h3 class="text-center"> <b> Hirings (<%= @requests.count %>) </b> </h3> 
+                <ol class="microposts list-group">
+                    <% @requests.each do |request| %>
+                        <li class="jumbotron box" id="micropost-<%= request.id %> >
+                
+                            <span class="content">
+                            <div class="row">
+                                <h4> <b class="pull-right btn-bottom btn-left"> $<%= request.job.budget %>  </b> </h4>
+                                <h4> <b><%= request.job.title.capitalize %> </b> </h4> 
+                            </div>
+                            
+                            <small class="dummy5"> <b>Description:</b> <%= request.job.description[0..250].capitalize ... %> </small>
+                            <br>
+                            <% if current_user?(@user) %>
+                
+                                <h6 class="text-center" ><b> Connect to <%= request.user.name %> at : <%= request.user.email %></b> </h6>
+                                <div class="row"> 
+                                    <%= link_to "View Job", job_path(request.job), class:"btn btn-primary pull-left"  %>
+                                    <small class="pull-right temp dummy6">You hired <%= link_to "#{request.user.name}", user_path(request.user) %> <%= time_ago_in_words(request.updated_at) %> ago.</small>
+                                </div>
+                                
+                                
+                            <% else %>
+                                <h6 class="text-center" ><b> <%= @user.name %> hired <%= request.user.name %>.</b> </h3> 
+                                <div class="row"> 
+                                    <%= link_to "View Job", job_path(request.job), class:"btn btn-primary pull-left"  %>
+                                    <small class="pull-right temp dummy6"> Hired <%= time_ago_in_words(request.updated_at) %> ago.</small>
+                                </div>
+                            <% end %>
+                            </span>         
+                         </li>
+                    <% end %>
+                </ol>
+                <%= will_paginate @requests %>
+            <% else %>
+                <% if current_user?(@user) %>
+                    <h3 class="text-center"> <b> No Hiring by you! </b> </h3>
+                    <h3 class="text-center"> <%= link_to "Send invitation", root_path, class:"btn btn-primary text-center" %></h3>
+                <% else %>
+                    <h3 class="text-center"><b> No Hiring by <%= @user.name %></b> </h3>
+                <% end %>
+            <% end %>

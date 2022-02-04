@@ -1,0 +1,18 @@
+            <div class="dummy2" >
+                <% if @user.description.nil? && current_user?(@user) %>
+                    <%# form to add description %>
+                    <%= form_with(model: @user, local: true) do |f| %>
+                        <%= f.hidden_field :email, value: @user.email %>
+                        <%= f.hidden_field :name, value: @user.name %>
+                        <%= f.hidden_field :role, value: @user.role %>
+                        <%= f.text_field :description, class: 'form-control', placeholder: "Add Headline (Max 50 characters)" %>
+                        <%= f.submit "Add Headline", class: "btn btn-primary" %>
+                    <% end  %>
+                <% elsif !@user.description.nil? %>
+                    <p class="table-bordered bg-info"><small> <b> <%= @user.description %> </b> </small> </p>
+                <% elsif @user.role == 1 %>
+                    <p class="table-bordered bg-info"><b> A Freelancer </b> </p>  
+                <% else %>
+                    <p class="table-bordered bg-info"><b> A Client </b></p> 
+                <% end %>
+            </div>

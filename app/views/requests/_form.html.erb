@@ -1,0 +1,15 @@
+<%= form_with(model: @request, local: true) do |f| %>
+        <%# <%= render 'shared/error_messages', object: f.object %> 
+
+
+    <%= f.hidden_field :job_id, value: job.id %>
+    <%= f.hidden_field :status, value: "Pending" %>
+    <%= f.hidden_field :user_id, value: current_user.id %>
+    <% if current_user.role == 1%>
+        <%= f.hidden_field :method, value: "Application" %>
+    <% else %>
+        <%= f.hidden_field :method, value: "Invitation" %>
+    <% end %>
+
+    <%= f.submit "Apply" %>
+<% end %>

@@ -20,6 +20,9 @@ gem 'sqlite3', '~> 1.4'
 gem 'puma', '~> 5.0'
 #Bootstrap gem file
 gem 'bootstrap-sass', '3.4.1'
+
+
+gem 'jquery-rails'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker

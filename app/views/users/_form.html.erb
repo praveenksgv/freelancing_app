@@ -1,16 +1,37 @@
-        <%= form_with(model: @user, local: true) do |f| %>
-            <%= render 'shared/error_messages', object: f.object %>
-            <%= f.label :name %>
-            <%= f.text_field :name, class: 'form-control' %>
 
-            <%= f.label :email %>
-            <%= f.email_field :email, class: 'form-control' %>
 
-            <%= f.label :password %>
-            <%= f.password_field :password , class: 'form-control'%>
+  <%= form_with(model: @user, local: true) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+      <%= f.label :name %>
+      <%= f.text_field :name, class:'form-control' %>
 
-            <%= f.label :password_confirmation, "Confirmation" %>
-            <%= f.password_field :password_confirmation, class: 'form-control' %>
+      <%= f.label :email %>
+      <%= f.email_field :email, class:'form-control' %>
+        <br>
+      <%= f.label :password %>
+      <%= f.password_field :password, class: 'form-control' %>
 
-            <%= f.submit "Create my account", class: "btn btn-primary" %>
-        <% end %>
+      <%= f.label :password_confirmation, "Password Confirmation" %>
+      <%= f.password_field :password_confirmation, class:'form-control' %>
+      <% if @user.new_record? %>
+
+          <div class="row">
+            <div class="col-md-1 transform-checkbox"><%= f.radio_button :role, 0 %></div>
+            <div class=""> <%= f.label :role, "Client" %></div>
+          </div>
+          <div class="row btn-top">
+            <div class="col-md-1 transform-checkbox"><%= f.radio_button :role, 1 %></div>
+            <div class=""><%= f.label :role, "Freelancer" %></div>
+          </div>
+      <% else %>
+        <%= f.label :description, "Headline" %>
+        <%= f.text_field :description, class:'form-control' %>
+      <% end %>
+      <br>
+      <% if logged_in? %>
+        <%= f.submit "Update Profile", class: "btn btn-primary" %>
+      <% else %>
+      <%= f.submit "Create my account", class: "btn btn-primary" %>
+      <% end %>
+    <% end %>
+

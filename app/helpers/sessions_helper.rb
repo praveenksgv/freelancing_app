@@ -10,6 +10,8 @@ module SessionsHelper
         cookies.permanent[:remember_token] = user.remember_token
     end
 
+#It provides the currently signed in user in the variable @current_user
+
     def current_user 
         if(user_id = session[:user_id])
             user = User.find_by(id: user_id)
@@ -25,14 +27,19 @@ module SessionsHelper
         end
     end
 
-    #Returns true if the given user is the current user
+#Returns true if the given user is the current user
+
     def current_user?(user)
         user && user == current_user
     end
 
+#Returns true if someone is logged into the website
+
     def logged_in?
         !current_user.nil?
     end
+
+#It will delete the remember_me functionality
     
     def forget(user)
         user.forget
@@ -40,13 +47,16 @@ module SessionsHelper
         cookies.delete(:remember_token)
     end
 
+#It will log_out the user from website
+
     def log_out
         forget(current_user)
         reset_session
         @current_user = nil
     end
 
-    #Stores the URL trying to be accessed .
+#Stores the URL, user trying to access.
+
     def store_location
         session[:forwarding_url] = request.original_url if request.get?
     end

@@ -1,0 +1,73 @@
+<div class="jumbotron">
+    <div class="row">
+        
+            Posted By <%= link_to "#{@job.user.name} ", user_path(@job.user) %> 
+            <b class="pull-right dummy5" > $<%= @job.budget %> </b>
+            <br>
+            <br>
+            <br>
+            <h3><b> <%= @job.title.capitalize %>. </b></h3>
+            <br>
+        
+            <p class="lead"> <b> Description : </b>  <small><%= @job.description %> </small> </p>
+
+            <br>
+
+            <ul class="list-inline">
+                <li><b> SKILLS : </b></li>
+                <% a = @job.skills.split(',') %>
+                <% a.each do |skill| %>
+                    <% skill = skill.strip %>
+                    <% if skill.length > 1 %>
+                        <li class="bg-primary"> <b> <%= skill %> </b> </li>
+                    <% end %>
+                <% end %>
+            </ul>
+            <br>
+            <ul class="list-inline center">
+                <% if current_user?(@job.user) %>
+                    <% if @job.requests.where("method = ?", "Application").count == 0 && @job.requests.where("status = ?", "Denied").count == 0 && @job.state != 0 %>
+                        <li> <%= link_to "Edit Job", edit_job_path(@job), class: "btn btn-danger" %> </li>
+                        <li> <%= link_to "Delete Job", @job, method: :delete, data: {confirm: "You sure?" }, class: "btn btn-danger" %> </li>
+                    <% end %>
+                <% end %>
+                <% if current_user.role == 1 %>
+                    <%# Invitation accept %>
+                        <% if @job.requests.where("user_id = ? AND method = ? AND status = ?", current_user.id, "Invitation", "Pending").count == 1 && @job.state != 0 %>
+                                    
+                                        <li class="inline-list-item">
+                                            <%= form_with(model: @request, local: true) do |f| %>
+                                                <%= f.hidden_field :job_id, value: @request.job.id %>
+                                                <%= f.hidden_field :status, value: "Accepted" %>
+                                                <%= f.hidden_field :user_id, value: @request.user.id %>
+                                                <%= f.hidden_field :method, value: @request.method %>
+                                                <%= f.submit "Accept", class: "btn btn-primary "%>
+                                            <% end %> 
+                                        </li>
+                                        <li class="inline-list-item">
+                                            <%= form_with(model: @request, local: true) do |f| %>
+                                                <%= f.hidden_field :job_id, value: @request.job.id %>
+                                                <%= f.hidden_field :status, value: "Denied" %>
+                                                <%= f.hidden_field :user_id, value: @request.user.id %>
+                                                <%= f.hidden_field :method, value: @request.method %>
+                                                <%= f.submit "Deny", class: "btn btn-danger "%>
+                                            <% end %> 
+                                        </li>
+                        <% end %>
+                    <%# Apply button %>
+                        <% if @job.requests.where("user_id = ?", current_user.id).count == 0 && @job.state == 2 %>
+                                <li class="inline-list-item">
+                                    <%= form_with(model: @request, local: true) do |f| %>
+                                        <%= f.hidden_field :job_id, value: @job.id %>
+                                        <%= f.hidden_field :status, value: "Pending" %>
+                                        <%= f.hidden_field :user_id, value: current_user.id %>
+                                        <%= f.hidden_field :method, value: "Application" %>
+                                        <%= f.submit "Apply", class: "btn btn-primary"%>
+                                    <% end %> 
+                                </li>
+                        <% end %>
+                    
+                <% end %>
+            </ul>
+    </div>
+</div>
